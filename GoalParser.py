@@ -1,19 +1,38 @@
-__author__ = 'Brian'
+__author__ = 'Brian Stock - bestock@uwaterloo.ca'
 
 import csv
+import re
 
-goals_data_file = open('Resources/taskstats_1422603158567.csv')
-goals_data = csv.reader(goals_data_file)
+tasks_data_file = open('Resources/taskstats_1422603158567.csv')
+tasks_data = csv.reader(tasks_data_file)
 
-goal_list = []
+task_list = []
 
-for row in goals_data:
+task_description_list = []  # String describing a task
+task_complete_list = []  # Task completed? True or False
+
+re_pattern = '^([^>+])?(-?)(\d|[A-Z]{2}).{0,3}?([\)\]]+) ? *?(.*)'
+
+for task_row in tasks_data:
     # Split rows based on linebreak symbol '#####'
-    goal_row = row[3].split('#####')
+    task_row = task_row[3].split('#####')
 
-    # Remove first element of split row if not meaningful.
-    if goal_row == '' or goal_row == 'undefined':
-        goal_row.pop(0)
-    goal_list = goal_list + goal_row  # Add new row of goals to list of goals.
+    for task_cell in task_row:
+        # Filter individual tasks based on regex: ^([^>+])?(-?)(\d|[A-Z]{2}).{0,3}?([\)\]]+) ? *?(.*)
+        task_match = re.match(re_pattern, task_cell)
+        if task_match:
+            # Append description.
+            task_description = task_match.group(5)
+            task_description_list.append(task_description)
+            # Append complete (True or False).
+            task_incomplete_flag = task_match.group(1)  # '-' if incomptete, 'None' if complete
+            if task_incomplete_flag == '-':
+                task_complete_list.append(False)
+            else:
+                task_complete_list.append(True)
 
-print goal_list
+            print task_incomplete_flag
+            print task_description
+
+print task_description_list[0]
+print task_complete_list[0]
