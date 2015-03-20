@@ -15,10 +15,10 @@ class TaskParser:
 
         re_pattern = '^([^>+])?(-?)(\d|[A-Z]{2}).{0,3}?([\)\]]+) ? *?(.*)'
 
-        wordset = set()
+        self.wordset = set()
         wordlist = []
         worDic = {}
-        c = Counter()
+        self.c = Counter()
 
         for task_row in tasks_data:
             # Split rows based on linebreak symbol '#####'
@@ -39,20 +39,14 @@ class TaskParser:
                         self.task_complete_list.append(True)
 
                     words = re.sub("[^\w]", " ",  task_match.group(5).lower()).split()
-                    c.update(words)
+                    self.c.update(words)
                     for word in words:
                         wordlist.append(word)
-                        wordset.add(word)
+                        self.wordset.add(word)
 
         print '===================== 4930 words used >=2 times'
         print '===================== 3600 words used >=3 times'
         print '===================== 2900 words used >=4 times'
-        print c.most_common(500);
+        print self.c.most_common(500)
         print 'total words:'
-        print len(wordset)
-
-    def get_description_list(self):
-        return self.task_description_list
-
-    def get_completed_list(self):
-        return self.task_complete_list
+        print len(self.wordset)
