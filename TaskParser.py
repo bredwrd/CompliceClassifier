@@ -18,7 +18,7 @@ for task_row in tasks_data:
     task_row = task_row[3].split('#####')
 
     for task_cell in task_row:
-        # Filter individual tasks based on regex: ^([^>+])?(-?)(\d|[A-Z]{2}).{0,3}?([\)\]]+) ? *?(.*)
+        # Filter individual tasks based on regex pattern.
         task_match = re.match(re_pattern, task_cell)
         if task_match:
             # Append description.
@@ -31,8 +31,5 @@ for task_row in tasks_data:
             else:
                 task_complete_list.append(True)
 
-            print task_incomplete_flag
             print task_description
-
-print task_description_list[0]
-print task_complete_list[0]
+            print task_incomplete_flag
