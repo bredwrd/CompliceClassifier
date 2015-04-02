@@ -44,9 +44,9 @@ class TaskParser:
                         wordlist.append(word)
                         self.wordset.add(word)
 
-        print '===================== 4930 words used >=2 times'
-        print '===================== 3600 words used >=3 times'
-        print '===================== 2900 words used >=4 times'
+        #print '===================== 4930 words used >=2 times'
+        #print '===================== 3600 words used >=3 times'
+        #print '===================== 2900 words used >=4 times'
         print self.c.most_common(500)
-        print 'total words:'
-        print len(self.wordset)
+        #print 'total words:'
+        #print len(self.wordset)
