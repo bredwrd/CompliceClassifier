@@ -19,12 +19,16 @@ class TaskParser:
         wordlist = []
         worDic = {}
         self.c = Counter()
-
+        falsecount = 0
+        truecount = 0
         for task_row in tasks_data:
             # Split rows based on linebreak symbol '#####'
             task_row = task_row[3].split('#####')
 
             for task_cell in task_row:
+                print "task cell = " + task_cell
+                task_cell = task_cell.replace("+", "")
+                print "task cell no plus = " + task_cell
                 # Filter individual tasks based on regex pattern.
                 task_match = re.match(re_pattern, task_cell)
                 if task_match:
@@ -34,9 +38,11 @@ class TaskParser:
                     # Append complete (True or False).
                     task_incomplete_flag = task_match.group(1)  # '-' if incomptete, 'None' if complete
                     if task_incomplete_flag == '-':
-                        self.task_complete_list.append(False)
+                        falsecount = falsecount + 1  # Validate input into MATLAB
+                        self.task_complete_list.append(0)  # use 0/1 instead of False/True to play nicely with MATLAB
                     else:
-                        self.task_complete_list.append(True)
+                        truecount = truecount + 1  # Validate input into MATLAB
+                        self.task_complete_list.append(1)   # use 0/1 instead of False/True to play nicely with MATLAB
 
                     words = re.sub("[^\w]", " ",  task_match.group(5).lower()).split()
                     self.c.update(words)
@@ -50,3 +56,5 @@ class TaskParser:
         print self.c.most_common(500)
         #print 'total words:'
         #print len(self.wordset)
+        #print "truecount = " + str(truecount)
+        #print "falsecount = " + str(falsecount)
