@@ -56,5 +56,5 @@ class TaskParser:
         print self.c.most_common(500)
         #print 'total words:'
         #print len(self.wordset)
-        #print "truecount = " + str(truecount)
-        #print "falsecount = " + str(falsecount)
+        print "truecount = " + str(truecount)
+        print "falsecount = " + str(falsecount)
